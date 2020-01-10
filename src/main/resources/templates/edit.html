@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="UTF-8" >
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="static/editor.md-master/css/editormd.css">
+  <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+  <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+  <script src="static/editor.md-master/editormd.js"></script>
+</head>
+<body>
+<div id="layout">
+  <header>
+    <h1>Auto height test</h1>
+  </header>
+  <form name="mdEditorForm">
+    <div id="test-editormd">
+          <textarea style="display:none;">
+            ### Settings
+          </textarea>
+    </div>
+  </form>
+  
+  <button id="btn">点击显示</button>
+<script type="text/javascript">
+  var testEditor;
+  $(function() {
+    testEditor = editormd("test-editormd", {
+      width           : "90%",
+      height          :   500,
+      autoHeight      : false,
+      path            : "static/editor.md-master/lib/",
+      htmlDecode      : "style,script,iframe",
+      codeFold : true,
+      saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+      searchReplace : true,
+      emoji : true,
+      taskList : true,
+      tocm : true,         // Using [TOCM]
+      tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+      flowChart : true,             // 开启流程图支持，默认关闭
+      sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+      imageUpload : true,
+      imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+      imageUploadURL : "/addImg", //这个是上传图片时的访问地址
+      // toolbarIcons : function() {
+      //   return [
+      //     "undo", "redo", "|",
+      //     "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+      //     "h1", "h2", "h3", "h4", "h5", "h6", "|",
+      //     "help", "info","releaseIcon","index"
+      //   ]
+      // },
+      /*自定义功能按钮，下面我自定义了2个，一个是发布，一个是返回首页*/
+      toolbarIconTexts : {
+        releaseIcon : "<span bgcolor=\"gray\">发布</span>",
+        index : "<span bgcolor=\"red\">返回首页</span>",
+      },
+  
+      /*给自定义按钮指定回调函数*/
+      toolbarHandlers:{
+        releaseIcon : function(cm, icon, cursor, selection) {
+          contentCommit();//提交表单代码在下面
+        },
+        index : function(){
+          window.location.href = '返回首页的路径.html';
+        },
+      }
+    });
+  
+    function contentCommit(){
+      mdEditorForm.method = "post";
+      mdEditorForm.action = "addArticle";//提交至服务器的路径
+      mdEditorForm.submit();
+    }
+  
+    $("#btn").on("click", function() {
+      var mdContent = testEditor.getMarkdown();
+      var htmlContent = testEditor.getHTML();
+      $.ajax({
+        type: "POST",
+        url: "addArticle",
+        data:{
+          title: '文章标题',
+          mdContent: mdContent,
+          htmlContent: htmlContent
+        },
+        dataType: "text",
+        success: function (res) {
+          if(res=="true"){
+            alert("添加成功");
+          }else {
+            alert("添加失败");
+          }
+        }
+      });
+    });
+    
+    
+  });
+</script>
+</body>
+</html>

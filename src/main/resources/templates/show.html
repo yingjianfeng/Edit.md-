@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="UTF-8" >
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="static/editor.md-master/css/editormd.css">
+  <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+  <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+  <script src="static/editor.md-master/editormd.js"></script>
+</head>
+<body>
+<div id="layout">
+  <div id="content"></div>
+  
+  <input type="text" id="ipt">
+  <button id="btn">点击显示</button>
+  <script type="text/javascript">
+    $(function() {
+      $("#btn").on("click", function() {
+        var id = $(" #ipt ").val();
+        console.log('id: '+id);
+        $.ajax({
+          type: "POST",
+          url: "qryById/"+id,
+          data:{
+          
+          },
+          dataType: "text",
+          success: function (res) {
+            var obj = JSON.parse(res);
+            $("#content").append(obj.htmlContent);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

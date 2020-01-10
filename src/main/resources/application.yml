@@ -1,0 +1,29 @@
+server:
+  port: 80
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.yjf.pojo
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/editmd?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
+  http:
+    encoding:
+      charset: UTF-8
+
+# 上传文件相关
+file:
+  # 文件上传目录
+  #uploadFolder: /usr/local/upload
+  uploadFolder: F://upfile/
+  # 对外访问的资源路径
+  staticAccessPath: /upfile/**
+

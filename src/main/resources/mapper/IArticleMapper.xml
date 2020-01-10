@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yjf.dao.IArticleMapper">
+    <select id="queryAll" resultType="Article">
+        select * from article
+    </select>
+
+    <insert id="add" parameterType="Article">
+        insert into article (title,mdContent,htmlContent)
+        values(#{title},#{mdContent},#{htmlContent})
+    </insert>
+
+    <select id="qryById" parameterType="int" resultType="Article">
+        select * from article where id=#{id}
+    </select>
+
+</mapper>
